@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Shortcut Keys
-// @version      1
+// @version      1.2
 // @description  TEST
 // @author       Mr-Watch
 // @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
