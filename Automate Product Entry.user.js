@@ -140,7 +140,7 @@
     document.querySelector("#_manage_stock").click();
     document.querySelector("#_stock").value = variableValues.stockQuantity;
 
-    if (variableValues.imageTitle != "" || variableValues.imageTitle != null) {
+    if (variableValues.imageTitle !== "" && variableValues.imageTitle !== null) {
       document.querySelector("#set-post-thumbnail").click();
       waitForElm(".save-ready").then(() => {
         try {
@@ -175,7 +175,7 @@
         Math.round(
           (e.target.value -
             e.target.value * Number(variableValues.discountPercentage)) *
-            100
+          100
         ) / 100;
     }
     document.querySelector("#timh_agoras").value = newPurchasePrice;
