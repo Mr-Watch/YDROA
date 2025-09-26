@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Category Parser
-// @version      1.1
+// @version      1.2
 // @description  TEST
 // @author       Mr-Watch
 // @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
@@ -67,8 +67,8 @@
       if (selectorFlag) {
         oldCategoriesString = currentCategoriesString;
         currentCategoriesString = await getCategoriesStringFromClipboard();
-        writeVariableInLS("currentCategoriesString", currentCategoriesString);
         currentCategoriesString = currentCategoriesString.replace(/\r/g, "");
+        writeVariableInLS("currentCategoriesString", currentCategoriesString);
         categories = currentCategoriesString.split("\n");
       } else {
         categories = currentCategories;
