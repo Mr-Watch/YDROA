@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Automate Product Entry
-// @version      1.2
+// @version      1.3
 // @description  TEST
 // @author       Mr-Watch
 // @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
