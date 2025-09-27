@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Category Parser
-// @version      1.2
+// @version      1.3
 // @description  TEST
 // @author       Mr-Watch
 // @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
@@ -10,6 +10,7 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        unsafeWindow
+// @grant        GM_notification
 // @noframes
 // @downloadURL  https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Category%20Parser.user.js
 // @updateURL    https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Category%20Parser.user.js
@@ -17,12 +18,13 @@
 
 (function () {
   "use strict";
+
   let currentCategoriesString = setupVariableInLS(
     "currentCategoriesString",
     "Uncategorized"
   );
   let oldCategoriesString = "";
-  let currentCategories = currentCategoriesString.split("\n");
+  let currentCategoriesArray = currentCategoriesString.split("\n");
 
   let copyClipboard = GM_registerMenuCommand(
     "Ανάγνωση περιεχομένου πρόχειρου",
@@ -36,7 +38,7 @@
 
   let showClipboardContents = GM_registerMenuCommand(
     "Παρουσίαση περιεχομένου πρόχειρου",
-    async function (MouseEvent) {
+    function (MouseEvent) {
       alert(currentCategoriesString);
     },
     {
@@ -56,38 +58,60 @@
     return matchingElement;
   }
 
-  async function getCategoriesStringFromClipboard() {
-    let categoriesStringFromClipboard = await navigator.clipboard.readText();
-    return categoriesStringFromClipboard;
+  async function getClipboardContents() {
+    let clipboardContents = await navigator.clipboard.readText();
+    return clipboardContents;
   }
 
-  async function performAction(selectorFlag = false) {
+  async function performAction(attemptToReadClipboard = false) {
     try {
-      let categories = [];
-      if (selectorFlag) {
+      let categoriesArray = [];
+
+      if (attemptToReadClipboard) {
         oldCategoriesString = currentCategoriesString;
-        currentCategoriesString = await getCategoriesStringFromClipboard();
+        currentCategoriesString = await getClipboardContents();
         currentCategoriesString = currentCategoriesString.replace(/\r/g, "");
         writeVariableInLS("currentCategoriesString", currentCategoriesString);
-        categories = currentCategoriesString.split("\n");
+        categoriesArray = currentCategoriesString.split("\n");
       } else {
-        categories = currentCategories;
+        categoriesArray = currentCategoriesArray;
       }
-
-      categories.forEach((category) => {
+      categoriesArray.forEach((category) => {
         let element = findLabelElement(category);
         element.click();
       });
-      currentCategories = categories;
+      currentCategoriesArray = categoriesArray;
     } catch (error) {
       if (error instanceof DOMException) {
         alert(
           "Πρέπει πρώτα να αλληλεπιδράσεις με την σελίδα (πχ κάνοντας κλικ κάπου)"
         );
       } else if (error instanceof TypeError) {
-        writeVariableInLS("currentCategoriesString", oldCategoriesString);
-        currentCategoriesString = oldCategoriesString;
-        alert("Πρέπει η αντιγραφή να αντιστοιχεί σε υπάρχουσες κατηγορίες");
+        let stringFromCheckboxes = "";
+
+        document
+          .querySelector("#product_catchecklist")
+          .querySelectorAll("label")
+          .forEach((label) => {
+            if (label.firstChild.checked) {
+              stringFromCheckboxes += label.innerText.trimStart() + "\n";
+            }
+          });
+
+        if (stringFromCheckboxes !== "") {
+          GM_notification({
+            text: "Τα περιεχόμενα του πρόχειρου δεν είναι σωστά\nΧρήση των τρέχουσα επιλεγμένων κατηγοριών",
+            title: "Επιλογή κατηγοριών",
+            timeout: 5000,
+          });
+          writeVariableInLS("currentCategoriesString", stringFromCheckboxes);
+          currentCategoriesArray = stringFromCheckboxes.split("\n");
+          currentCategoriesArray.pop();
+        } else {
+          writeVariableInLS("currentCategoriesString", oldCategoriesString);
+          currentCategoriesString = oldCategoriesString;
+          alert("Πρέπει η αντιγραφή να αντιστοιχεί σε υπάρχουσες κατηγορίες");
+        }
       }
     }
   }
