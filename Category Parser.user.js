@@ -12,7 +12,6 @@
 // @grant        unsafeWindow
 // @grant        GM_notification
 // @noframes
-// @downloadURL  https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Category%20Parser.user.js
 // @updateURL    https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Category%20Parser.user.js
 // ==/UserScript==
 
