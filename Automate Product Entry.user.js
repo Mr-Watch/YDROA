@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Automate Product Entry
 // @version      1.3
-// @description  TEST
+// @description  Fills out some of the repetitive fields when adding a new product
 // @author       Mr-Watch
-// @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
 // @match        https://eshoparmy.gr/wp-admin/post.php?post=*
+// @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=eshoparmy.gr
 // @grant        GM_registerMenuCommand
 // @grant        GM_unregisterMenuCommand
@@ -14,6 +14,7 @@
 // @noframes
 // @downloadURL  https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Automate%20Product%20Entry.user.js
 // @updateURL    https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Automate%20Product%20Entry.user.js
+
 // ==/UserScript==
 
 (function () {

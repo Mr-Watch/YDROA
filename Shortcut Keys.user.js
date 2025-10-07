@@ -1,16 +1,17 @@
 // ==UserScript==
 // @name         Shortcut Keys
-// @version      1
-// @description  TEST
+// @version      1.1
+// @description  Handles the shortcuts between the two userscripts
 // @author       Mr-Watch
-// @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
 // @match        https://eshoparmy.gr/wp-admin/post.php?post=*
+// @match        https://eshoparmy.gr/wp-admin/post-new.php?post_type=product*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=eshoparmy.gr
 // @grant        GM_registerMenuCommand
 // @grant        unsafeWindow
 // @noframes
 // @downloadURL  https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Shortcut%20Keys.user.js
 // @updateURL    https://github.com/Mr-Watch/YDROA/raw/refs/heads/main/Shortcut%20Keys.user.js
+
 // ==/UserScript==
 
 (function () {
@@ -20,7 +21,7 @@
   let menuCommand = GM_registerMenuCommand(
     "Ανάγνωση πλήκτρου",
     function () {
-      alert("Θα έχετε 3 δευτερόλεπτα να πατήστε ένα πλήκτρο");
+      alert("Θα έχετε 3 δευτερόλεπτα να πατήσετε ένα πλήκτρο");
       window.addEventListener("keydown", readKey);
       setTimeout(() => {
         alert(
@@ -37,7 +38,6 @@
   );
 
   function readKey(e) {
-    console.log(e.keyCode);
     keyCode = e.keyCode;
   }
 
